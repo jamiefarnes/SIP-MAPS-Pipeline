@@ -1,5 +1,10 @@
-SDP Integration Prototype (SIP) DPrepB/C Pipeline
+SDP Integration Prototype (SIP) MAPS Pipeline
 ========================================
+
+## Version
+This version of the pipeline is under development to be run for LOFAR MAPS data, and is testable on a standard laptop.
+
+## Information
 
 This is a project to create a pipeline for the Square Kilometre Array (SKA) Science Data Processor (SDP) Integration Prototype (SIP), in order to process spectropolarimetric I, Q, U, V data. This is classified within SDP as a "DPrepB/DPrepC" or spectral imaging pipeline. Further details on the code are provided in SKA SDP Memo 081.
 
