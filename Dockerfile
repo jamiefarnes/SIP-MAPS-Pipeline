@@ -18,11 +18,21 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.d
 RUN apt-get -y install git-lfs
 RUN git lfs install
 
+# Install kernsuite and PyBDSF
+RUN sudo apt-get -y install software-properties-common
+RUN sudo add-apt-repository -y -s ppa:kernsuite/kern-4
+RUN sudo apt-add-repository -y multiverse
+RUN sudo apt-get update
+RUN sudo apt-get -y install pybdsf
+
 # Set working directory
 WORKDIR /home/jovyan/sdp
 
-# Download the SIP DPrepB-C pipeline
-RUN git clone https://github.com/jamiefarnes/SKA-SIP-DPrepB-C-Pipeline
+# Download the SIP MAPS pipeline
+RUN git clone https://github.com/jamiefarnes/SIP-MAPS-Pipeline
+
+# Download the RMextract repository
+RUN git clone https://github.com/lofar-astron/RMextract
 
 # Download the SKA Algorithm Reference Library (ARL)
 RUN apt-get -y install libcfitsio-dev
@@ -47,8 +57,14 @@ RUN pip install -r requirements.txt &&\
 
 # Setup/install the SIP MAPS Pipeline
 WORKDIR /opt/conda/lib/python3.5/
-RUN ln -s ~/sdp/SKA-SIP-DPrepB-C-Pipeline/DPrepB-C/ska_sip
+RUN ln -s ~/sdp/SIP-MAPS-Pipeline/LOFAR-MAPS/lofar_msss
 
+# Setup/install RMextract
+WORKDIR /home/jovyan/sdp/RMextract
+RUN python setup.py build
+RUN python setup.py install
+
+# Setup/install ARL
 WORKDIR /opt/conda/lib/python3.5/
 RUN ln -s ~/sdp/algorithm-reference-library/data
 RUN ln -s ~/sdp/algorithm-reference-library/data_models

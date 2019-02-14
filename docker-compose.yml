@@ -3,14 +3,14 @@ version: '3.6'
 services:
 
     scheduler:
-        image: ska-sip-dprepb-c-pipeline
+        image: lofar-maps-pipeline
         ports:
             - 8786:8786
             - 8787:8787   
         expose:
             - "2181"
             - "9092"
-        entrypoint: ["bash", "./SKA-SIP-DPrepB-C-Pipeline/docker-entrypoint.sh"]
+        entrypoint: ["bash", "./SIP-MAPS-Pipeline/docker-entrypoint.sh"]
         build:
             context: .
         volumes: 
@@ -23,7 +23,7 @@ services:
 
 
     worker:
-        image: ska-sip-dprepb-c-pipeline
+        image: lofar-maps-pipeline
         hostname: dask-worker
         command: ["dask-worker", "--memory-limit 32000000000 --resources MEM=32000000000 scheduler:8786"]
         build:

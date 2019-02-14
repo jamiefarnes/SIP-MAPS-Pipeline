@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""dprepb.py: The DPrepB/C imaging pipeline for SIP."""
+"""maps.py: The LOFAR/MSSS imaging pipeline for MAPS."""
 
 import sys
 import os
@@ -19,11 +19,12 @@ from processing_components.image.operations import export_image_to_fits
 from processing_components.visibility.operations import append_visibility
 from processing_components.image.deconvolution import restore_cube
 
-from ska_sip.metamorphosis.filter import uv_cut
-from ska_sip.metamorphosis.convert import convert_to_stokes
-from ska_sip.outflows.images.imaging import wstack, image_2d
-from ska_sip.outflows.images.deconvolution import deconvolve_cube_complex
-from ska_sip.eventhorizon.plot import uv_cov, uv_dist
+from lofar_msss.metamorphosis.filter import uv_cut
+from lofar_msss.metamorphosis.convert import convert_to_stokes
+from lofar_msss.metamorphosis.iono import correct_ion_faraday
+from lofar_msss.outflows.images.imaging import wstack, image_2d
+from lofar_msss.outflows.images.deconvolution import deconvolve_cube_complex
+from lofar_msss.eventhorizon.plot import uv_cov, uv_dist
 
 sys.stdout.close()
 sys.stdout = sys.__stdout__
@@ -32,8 +33,8 @@ __author__ = "Jamie Farnes"
 __email__ = "jamie.farnes@oerc.ox.ac.uk"
 
 
-def dprepb_imaging(vis_input):
-    """The DPrepB/C imaging pipeline for visibility data.
+def maps_imaging(vis_input):
+    """The MAPS imaging pipeline for visibility data.
         
     Args:
     vis_input (array): array of ARL visibility data and parameters.
@@ -73,6 +74,13 @@ def dprepb_imaging(vis_input):
     # ------------------------------------------------------
     sys.stdout = open('%s/dask-log.txt' % (RESULTS_DIR), 'w')
     
+    # Correct for Ionospheric Faraday rotation
+    # ------------------------------------------------------
+    if APPLY_IONO:
+        # Correct the data for the ionospheric rotation measure:
+        vis1 = correct_ion_faraday(vis1, ionRM1, times1, time_indices1)
+        vis2 = correct_ion_faraday(vis2, ionRM2, times2, time_indices2)
+    
     # Prepare Measurement Set
     # ------------------------------------------------------
     # Combine MSSS snapshots:
@@ -85,7 +93,7 @@ def dprepb_imaging(vis_input):
     if MAKE_PLOTS:
         uv_cov(vis)
         uv_dist(vis)
-
+    
     # Imaging and Deconvolution
     # ------------------------------------------------------
     # Convert from XX/XY/YX/YY to I/Q/U/V:

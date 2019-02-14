@@ -1,3 +1,0 @@
-""" SIP DPrepB/C Pipeline
-
-"""

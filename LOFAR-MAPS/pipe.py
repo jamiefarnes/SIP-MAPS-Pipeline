@@ -7,13 +7,16 @@ import argparse
 
 import numpy as np
 
+import pyrap.tables as tab
+
 from processing_components.image.operations import import_image_from_fits, export_image_to_fits, qa_image
 from processing_components.visibility.operations import append_visibility
 
-from ska_sip.metamorphosis.filter import uv_cut, uv_advice
-from ska_sip.telescopetools.initinst import init_inst
-from ska_sip.accretion.ms import load
-from ska_sip.pipelines.dprepb import dprepb_imaging, arl_data_future
+from lofar_msss.metamorphosis.filter import uv_cut, uv_advice
+from lofar_msss.metamorphosis.iono import get_ion_rotation_measures_maps
+from lofar_msss.telescopetools.initinst import init_inst
+from lofar_msss.accretion.ms import load
+from lofar_msss.pipelines.maps import maps_imaging, arl_data_future
 
 import dask
 import dask.array as da
@@ -25,13 +28,6 @@ __author__ = "Jamie Farnes"
 __email__ = "jamie.farnes@oerc.ox.ac.uk"
 
 
-"""
-This code is something of a "Workflow Script Wrapper".
-
-Execution control would load this code. At the moment, Execution Control is essentially 'python -i pipe.py'!
-"""
-
-
 def main(args):
     """
     Initialising launch sequence.
@@ -39,7 +35,7 @@ def main(args):
     # ------------------------------------------------------
     # Print some stuff to show that the code is running:
     print("")
-    os.system("printf 'A demonstration of a \033[5mDPrepB/DPrepC\033[m SDP pipeline\n'")
+    os.system("printf 'Running the \033[5mLOFAR MSSS/MAPS\033[m pipeline\n'")
     print("")
     # Set the directory for the moment images:
     MOMENTS_DIR = args.outputs + '/MOMENTS'
@@ -66,8 +62,8 @@ def main(args):
     # Define a Data Array Format
     # ------------------------------------------------------
     def gen_data(channel):
-        return np.array([vis1[channel], vis2[channel], channel, None, None, False, False, args.plots, float(args.uvcut), float(args.pixels), POLDEF, args.outputs, float(args.angres), None, None, None, None, None, None, args.twod, npixel_advice, cell_advice])
-    
+        return np.array([vis1[channel], vis2[channel], channel, stations, lofar_stat_pos, args.iono, False, args.plots, float(args.uvcut), float(args.pixels), POLDEF, args.outputs, float(args.angres), ionRM1, times1, time_indices1, ionRM2, times2, time_indices2, args.twod, npixel_advice, cell_advice])
+
     # Setup the Dask Cluster
     # ------------------------------------------------------
     starttime = t.time()
@@ -90,6 +86,30 @@ def main(args):
     print("")
     vis1 = [load('%s/%s' % (args.inputs, args.ms1), range(channel, channel+1), POLDEF) for channel in range(0, int(args.channels))]
     vis2 = [load('%s/%s' % (args.inputs, args.ms2), range(channel, channel+1), POLDEF) for channel in range(0, int(args.channels))]
+
+    # Obtain Ionospheric Faraday rotation estimates
+    # ------------------------------------------------------
+    """
+    The Measurement Set defines the station and dipole positions, the phase centre, and the channel frequencies (and reference frequency) for which the LOFAR beam will be evaluated.
+    """
+    myms = tab.table(args.inputs + '/' + args.ms1)
+    stations = tab.table(myms.getkeyword('ANTENNA')).getcol('NAME')
+    lofar_stat_pos = tab.table(myms.getkeyword('ANTENNA')).getcol('POSITION')  # in ITRF metres
+
+    if args.iono:
+        print("Obtaining Ionospheric TEC data:")
+        print("")
+        ionRM1, times1, time_indices1 = get_ion_rotation_measures_maps(vis1[0], stations, lofar_stat_pos)
+        ionRM2, times2, time_indices2 = get_ion_rotation_measures_maps(vis2[0], stations, lofar_stat_pos)
+        # Save the median Faraday rotation to disk, as an instrumental estimate:
+        np.savetxt('%s/ionFR.txt' % (args.outputs), [np.median(np.concatenate((ionRM1, ionRM2), axis=0))], fmt="%s")
+    else:
+        ionRM1 = None
+        times1 = None
+        time_indices1 = None
+        ionRM2 = None
+        times2 = None
+        time_indices2 = None
 
     # Prepare Measurement Set
     # ------------------------------------------------------
@@ -285,6 +305,7 @@ ap.add_argument('-ms2', '--ms2', help='Measurement Set 2 [default sim-2.ms]', de
 ap.add_argument('-q', '--queues', help='Enable Queues? [default False]', default=True)
 ap.add_argument('-p', '--plots', help='Output diagnostic plots? [default False]', default=False)
 ap.add_argument('-2d', '--twod', help='2D imaging [True] or wstack imaging [False]? [default False]', default=False)
+ap.add_argument('-i','--iono',help='Correct for ionospheric Faraday rotation? [default False]',default=False)
 
 ap.add_argument('-uv', '--uvcut', help='Cut-off for the uv-data [default 450]', default=450.0)
 ap.add_argument('-a', '--angres', help='Force the angular resolution to be consistent across the band, in arcmin FWHM [default 8.0]', default=8.0)
