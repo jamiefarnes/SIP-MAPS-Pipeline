@@ -97,9 +97,9 @@ RUN apt-get -y install librdkafka1 librdkafka-dev
 RUN conda install -c conda-forge python-confluent-kafka
 
 # Download and install Kafka, which will be turned on from the docker-compose entrypoint
-RUN wget "http://www-us.apache.org/dist/kafka/0.11.0.2/kafka_2.11-0.11.0.2.tgz" --directory-prefix=/home/jovyan/sdp/
+RUN wget "http://www-us.apache.org/dist/kafka/0.11.0.3/kafka_2.11-0.11.0.3.tgz" --directory-prefix=/home/jovyan/sdp/
 RUN mkdir Kafka
-RUN tar -xvf /home/jovyan/sdp/kafka_2.11-0.11.0.2.tgz -C Kafka/
+RUN tar -xvf /home/jovyan/sdp/kafka_2.11-0.11.0.3.tgz -C Kafka/
 
 # Define the initial working directory
 WORKDIR /home/jovyan/sdp/
