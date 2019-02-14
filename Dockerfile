@@ -7,8 +7,7 @@ MAINTAINER Jamie Farnes <jamie.farnes@oerc.ox.ac.uk>
 # As root, set up a python3.5 conda environment, activate, and install dask:
 USER root
 RUN mkdir sdp
-RUN conda install python=3.5 && conda install -c conda-forge dask=0.18.1 distributed=1.23.1 && conda install setuptools && conda install numpy && conda install -c conda-forge matplotlib 
-# && conda install -c conda-forge casacore=2.4.0
+RUN conda install python=3.5 && conda install -c conda-forge dask=0.18.1 distributed=1.23.1 && conda install setuptools && conda install numpy && conda install -c conda-forge matplotlib && conda install -c conda-forge casacore=2.4.0
 # && conda install -c conda-forge python-casacore
 
 # As root, install various essential packages
@@ -26,7 +25,6 @@ RUN sudo add-apt-repository -y -s ppa:kernsuite/kern-5
 RUN sudo apt-add-repository -y multiverse 
 RUN sudo apt-add-repository -y restricted
 RUN sudo apt-get update
-RUN sudo apt-get -y install casacore
 RUN sudo apt-get -y install python-casacore
 RUN sudo apt-get -y install pybdsf
 
