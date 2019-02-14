@@ -135,7 +135,7 @@ def main(args):
     big_job = [client.scatter(gen_data(channel)) for channel in channel_range]
 
     # Submit jobs to the cluster and create a list of futures:
-    futures = [client.submit(dprepb_imaging, big_job[channel], pure=False, retries=3) for channel in channel_range]
+    futures = [client.submit(maps_imaging, big_job[channel], pure=False, retries=3) for channel in channel_range]
     """
     The dprepb_imaging function could generate QA, logging, and pass this information via Data Queues.
     Queues work well for this.
@@ -160,7 +160,7 @@ def main(args):
             print("")
             index = futures.index(future)
             futures[index].cancel()
-            futures[index] = client.submit(dprepb_imaging, big_job[index], pure=False, retries=3)
+            futures[index] = client.submit(maps_imaging, big_job[index], pure=False, retries=3)
 
     # Wait until all futures are complete:
     wait(futures)
