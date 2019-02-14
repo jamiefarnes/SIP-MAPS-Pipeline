@@ -14,7 +14,7 @@ Primary uses includes full-Stokes imaging and Faraday Moments. Beam correction i
 
 The pipeline is designed and intended as a demonstrator of [`Dask`](https://dask.pydata.org/en/latest/) as one plausible Execution Framework, and uses both 'Dask distributed' and 'distributed Dask arrays' in order to process the data. Monitoring and logging can be accessed via Bokeh at <http://localhost:8787>. The pipeline outputs .fits data products, which is one feasible option that is usable by a typical radio astronomer.
 
-The pipeline can be deployed to a local Docker installation. No IP address is required for the scheduler, but can be manually specified as an argument to the Python code if desired. The running of this pipeline within a Docker swarm cluster on P3-AlaSKA, alongside integration with other SIP services, are currently under consideration and active development. Services such as Queues and Quality Assessment (QA) are now fully implemented in this released version - a Dockerised QA aggregator container is built during installation, with the consumed QA messages being readable via `docker logs lofar-maps-pipeline_qa_1`.
+The pipeline can be deployed to a local Docker installation. No IP address is required for the scheduler, but can be manually specified as an argument to the Python code if desired. The running of this pipeline within a Docker swarm cluster on P3-AlaSKA, alongside integration with other SIP services, are currently under consideration and active development. Services such as Queues and Quality Assessment (QA) are now fully implemented in this released version - a Dockerised QA aggregator container is built during installation, with the consumed QA messages being readable via `docker logs sip-maps-pipeline_qa_1`.
 
 Various additional features will be implemented and released in due course, including the source-finding and RM Synthesis codes that constitute parts of a LOFAR MSSS/MAPS pipeline. Many of the functions that are used for this purpose are already included in the code available here.
 
@@ -31,13 +31,13 @@ Assuming that Docker is already installed, it is possible to download the pipeli
 git clone https://github.com/jamiefarnes/SIP-MAPS-Pipeline
 cd SIP-MAPS-Pipeline
 docker-compose up -d --build
-docker exec -it lofar-maps-pipeline_scheduler_1 bash
+docker exec -it sip-maps-pipeline_scheduler_1 bash
 python SIP-MAPS-Pipeline/LOFAR-MAPS/pipe.py -c=10
 ```
 
 The consumed QA messages are readable from the QA aggregator via:
 ```
-docker logs lofar-maps-pipeline_qa_1
+docker logs sip-maps-pipeline_qa_1
 ```
 
 ## Running the Pipeline
@@ -68,13 +68,13 @@ The cluster creates four services:
 
 -   **notebook**: Published on <http://localhost:8888> but must log in with the
 token printed in the logs when starting this container
-(eg. `docker logs lofar-maps-pipeline_notebook_1`)
+(eg. `docker logs sip-maps-pipeline_notebook_1`)
 
 -   **qa**: The QA service, on which a QA aggregator is automatically started.
 
 The cluster can then be accessed using:
 ```bash
-docker exec -it lofar-maps-pipeline_scheduler_1 bash
+docker exec -it sip-maps-pipeline_scheduler_1 bash
 ```
 
 The Docker container has been tested, and will automatically connect to the scheduler.
