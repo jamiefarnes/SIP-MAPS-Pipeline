@@ -23,7 +23,8 @@ RUN git lfs install
 # Install kernsuite, PyBDSF, casacore, python-casacore
 RUN sudo apt-get -y install software-properties-common
 RUN sudo add-apt-repository -y -s ppa:kernsuite/kern-5
-RUN sudo apt-add-repository -y multiverse restricted
+RUN sudo apt-add-repository -y multiverse 
+RUN sudo apt-add-repository -y restricted
 RUN sudo apt-get update
 RUN sudo apt-get -y install casacore
 RUN sudo apt-get -y install python-casacore
