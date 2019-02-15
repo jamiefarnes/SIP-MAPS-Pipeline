@@ -21,7 +21,8 @@ RUN git lfs install
 
 # Install kernsuite, PyBDSF, casacore, python-casacore
 RUN sudo apt-get -y install software-properties-common
-RUN sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install -y tzdata
+ENV DEBIAN_FRONTEND=noninteractive
+RUN sudo apt-get install -y tzdata
 RUN sudo add-apt-repository -y -s ppa:kernsuite/kern-4
 RUN sudo apt-add-repository -y multiverse 
 RUN sudo apt-add-repository -y restricted
