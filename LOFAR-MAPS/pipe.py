@@ -292,6 +292,9 @@ def main(args):
     endtime = t.time()
     print(endtime-starttime)
 
+    # Begin source-finding:
+    os.system('python2 ./LOFAR-MAPS/lofar_msss/scripts/sourcefind.py')
+
 
 # Define the arguments for the pipeline:
 ap = argparse.ArgumentParser()

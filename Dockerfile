@@ -21,13 +21,10 @@ RUN git lfs install
 
 # Install kernsuite, PyBDSF, casacore, python-casacore
 RUN sudo apt-get -y install software-properties-common
-
-
+# Avoid interactive prompt for tzdata
 ENV TZ=Europe/Berlin
 RUN sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN sudo apt update
-
-
 RUN sudo apt-get install -y tzdata
 RUN sudo add-apt-repository -y -s ppa:kernsuite/kern-4
 RUN sudo apt-add-repository -y multiverse 
@@ -35,6 +32,7 @@ RUN sudo apt-add-repository -y restricted
 RUN sudo apt-get update
 RUN sudo apt-get -y install libcasa-python3-2 
 RUN sudo apt-get -y install libcasa-tables2 
+RUN sudo apt-get -y install libcasa-measures2
 RUN sudo apt-get -y install casacore-dev
 RUN sudo apt-get -y install python3-casacore
 RUN sudo apt-get -y install pybdsf
