@@ -80,7 +80,7 @@ RUN python setup.py install
 # Setup/install BDSF
 ENV PATH=/usr/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV PYTHONPATH=/usr/lib/python2.7/dist-packages/
-RUN sudo apt-get install python-pip
+RUN sudo apt-get -y install python-pip
 RUN pip install numpy
 # Reset environment variables:
 ENV PATH=/usr/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
