@@ -84,7 +84,7 @@ RUN sudo apt-get -y install python-pip
 RUN pip install numpy
 # Reset environment variables:
 ENV PATH=/usr/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
-ENV PYTHONPATH=$PYTHONPATH:/home/jovyan/sdp/algorithm-reference-library/:/opt/conda/lib/python3.5/site-packages/:/usr/lib/python3/dist-packages/
+ENV PYTHONPATH=/home/jovyan/sdp/algorithm-reference-library/:/opt/conda/lib/python3.5/site-packages/:/usr/lib/python3/dist-packages/
 
 # Setup/install ARL
 WORKDIR /opt/conda/lib/python3.5/
