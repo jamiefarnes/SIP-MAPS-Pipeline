@@ -293,7 +293,7 @@ def main(args):
     print(endtime-starttime)
 
     # Begin source-finding:
-    os.system('python2 ./LOFAR-MAPS/lofar_msss/scripts/sourcefind.py')
+    os.system('python2 ./SIP-MAPS-Pipeline/LOFAR-MAPS/lofar_msss/scripts/sourcefind.py')
 
 
 # Define the arguments for the pipeline:
