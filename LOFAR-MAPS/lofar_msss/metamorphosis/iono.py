@@ -86,6 +86,7 @@ def get_ion_rotation_measures_maps(vis, stations, lofar_stat_pos):
         max_time = times[indices][i] + time_difference
         time_step = max_time-min_time  # frequency to obtain solutions in seconds.
         # Get the results:
+        print(use_azel, use_mean, [min_time, max_time], time_step, stations, lofar_stat_pos, True, time_offset)
         result = getRM(use_azel=use_azel, use_mean=use_mean, timerange=[min_time, max_time], timestep=time_step, stat_names=stations, stat_positions=lofar_stat_pos, useEMM=True, TIME_OFFSET=time_offset)
         RM = result['RM']
         ionRM.append(np.median(RM[stations[0]]))
