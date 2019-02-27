@@ -295,7 +295,7 @@ def main(args):
     # Begin source-finding:
     os.system('python2 ./SIP-MAPS-Pipeline/LOFAR-MAPS/lofar_msss/scripts/sourcefind.py')
 
-major revision
+
 # Define the arguments for the pipeline:
 ap = argparse.ArgumentParser()
 ap.add_argument('-d', '--daskaddress', help='Address of the Dask scheduler [default scheduler:8786]', default='scheduler:8786')
