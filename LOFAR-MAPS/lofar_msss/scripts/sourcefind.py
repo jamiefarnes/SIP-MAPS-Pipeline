@@ -12,5 +12,3 @@ print sys.path
 
 import bdsf
 
-test
-
