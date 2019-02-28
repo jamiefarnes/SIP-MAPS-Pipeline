@@ -224,6 +224,8 @@ def main(args):
     print(image_template.wcs.wcs.cunit)
     print(image_template.wcs.wcs.crval)
     print(image_template.frequency)
+    print(image_template.data.shape)
+    print(image_template.data)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
