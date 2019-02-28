@@ -218,6 +218,12 @@ def main(args):
     # Output mean images:
     # I:
     image_template.data = stack[:, :, 0, :, :].mean(axis=0).compute()
+    print(image_template.wcs.wcs.ctype)
+    print(image_template.wcs.wcs.cdelt)
+    print(image_template.wcs.wcs.crpix)
+    print(image_template.wcs.wcs.cunit)
+    print(image_template.wcs.wcs.crval)
+    print(image_template.frequency)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
