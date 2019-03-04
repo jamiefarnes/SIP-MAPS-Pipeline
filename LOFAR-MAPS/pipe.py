@@ -217,7 +217,7 @@ def main(args):
 
     # Output mean images:
     # I:
-    image_template.data = stack[:, :, 0, :, :].mean(axis=0).compute()
+    image_template.data = np.expand_dims(stack[:, :, 0, :, :].mean(axis=0).compute(), axis=0)
     print(image_template.wcs.wcs.ctype)
     print(image_template.wcs.wcs.cdelt)
     print(image_template.wcs.wcs.crpix)
@@ -226,6 +226,7 @@ def main(args):
     print(image_template.frequency)
     print(image_template.data.shape)
     print(image_template.data)
+    print("Expanded dims: was 1,512,512 - should now be 1,1,512,512?))
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
