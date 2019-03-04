@@ -35,7 +35,7 @@ RUN sudo apt-get -y install libcasa-tables2
 RUN sudo apt-get -y install libcasa-measures2
 RUN sudo apt-get -y install casacore-dev
 RUN sudo apt-get -y install python3-casacore
-RUN sudo apt-get -y install pybdsf
+# RUN sudo apt-get -y install pybdsf
 
 # Set working directory
 WORKDIR /home/jovyan/sdp
@@ -85,6 +85,8 @@ RUN pip install numpy
 # Reset environment variables:
 ENV PATH=/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV PYTHONPATH=/home/jovyan/sdp/algorithm-reference-library/:/opt/conda/lib/python3.5/site-packages/:/usr/lib/python3/dist-packages/
+RUN sudo add-apt-repository -y -s ppa:kernsuite/kern-5
+RUN sudo apt-get -y install pybdsf
 
 # Setup/install ARL
 WORKDIR /opt/conda/lib/python3.5/

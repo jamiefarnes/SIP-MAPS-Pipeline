@@ -19,7 +19,9 @@ Currently a hacky source-finding bolt-on and work in progress...
 """
 filename = '/data/outputs/MOMENTS/Mean-I.fits' #  '/data/outputs/imaging_clean_WStack-1.fits'
 
-img = bdsf.process_image(filename, rms_box=(100,100), frequency= 1.4e9, beam=(8.0/60.0, 8.0/60.0, 0.0))
+img = bdsf.process_image(filename, frequency= 150e6, beam=(8.0/60.0, 8.0/60.0, 0.0), thresh='fdr', thresh_isl=4.0, thresh_pix=6.0, output_all=True)
+
+#img = bdsf.process_image(filename, frequency= 150e6, beam=(8.0/60.0, 8.0/60.0, 0.0), thresh='fdr', thresh_isl=4.0, thresh_pix=6.0, savefits_residim=True, output_all=True)
 
 print("HERE")
 
