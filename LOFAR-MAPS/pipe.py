@@ -218,15 +218,6 @@ def main(args):
     # Output mean images:
     # I:
     image_template.data = np.expand_dims(stack[:, :, 0, :, :].mean(axis=0).compute(), axis=0)
-    print(image_template.wcs.wcs.ctype)
-    print(image_template.wcs.wcs.cdelt)
-    print(image_template.wcs.wcs.crpix)
-    print(image_template.wcs.wcs.cunit)
-    print(image_template.wcs.wcs.crval)
-    print(image_template.frequency)
-    print(image_template.data.shape)
-    print(image_template.data)
-    print("Expanded dims: was 1,512,512 - should now be 1,1,512,512?")
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
@@ -234,7 +225,7 @@ def main(args):
     export_image_to_fits(image_template, '%s/Mean-%s.fits' % (MOMENTS_DIR, 'I'))
 
     # Q:
-    image_template.data = stack[:, :, 1, :, :].mean(axis=0).compute()
+    image_template.data = np.expand_dims(stack[:, :, 1, :, :].mean(axis=0).compute(), axis=0)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
@@ -242,7 +233,7 @@ def main(args):
     export_image_to_fits(image_template, '%s/Mean-%s.fits' % (MOMENTS_DIR, 'Q'))
 
     # U:
-    image_template.data = stack[:, :, 2, :, :].mean(axis=0).compute()
+    image_template.data = np.expand_dims(stack[:, :, 2, :, :].mean(axis=0).compute(), axis=0)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
@@ -250,7 +241,7 @@ def main(args):
     export_image_to_fits(image_template, '%s/Mean-%s.fits' % (MOMENTS_DIR, 'U'))
 
     # P:
-    image_template.data = da.sqrt((da.square(stack[:, :, 1, :, :]) + da.square(stack[:, :, 2, :, :]))).mean(axis=0).compute()
+    image_template.data = np.expand_dims(da.sqrt((da.square(stack[:, :, 1, :, :]) + da.square(stack[:, :, 2, :, :]))).mean(axis=0).compute(), axis=0)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
@@ -259,7 +250,7 @@ def main(args):
 
     # Output standard deviation images:
     # I:
-    image_template.data = stack[:, :, 0, :, :].std(axis=0).compute()
+    image_template.data = np.expand_dims(stack[:, :, 0, :, :].std(axis=0).compute(), axis=0)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
@@ -267,7 +258,7 @@ def main(args):
     export_image_to_fits(image_template, '%s/Std-%s.fits' % (MOMENTS_DIR, 'I'))
 
     # Q:
-    image_template.data = stack[:, :, 1, :, :].std(axis=0).compute()
+    image_template.data = np.expand_dims(stack[:, :, 1, :, :].std(axis=0).compute(), axis=0)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
@@ -275,7 +266,7 @@ def main(args):
     export_image_to_fits(image_template, '%s/Std-%s.fits' % (MOMENTS_DIR, 'Q'))
 
     # U:
-    image_template.data = stack[:, :, 2, :, :].std(axis=0).compute()
+    image_template.data = np.expand_dims(stack[:, :, 2, :, :].std(axis=0).compute(), axis=0)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
@@ -283,7 +274,7 @@ def main(args):
     export_image_to_fits(image_template, '%s/Std-%s.fits' % (MOMENTS_DIR, 'U'))
 
     # P:
-    image_template.data = da.sqrt((da.square(stack[:, :, 1, :, :]) + da.square(stack[:, :, 2, :, :]))).std(axis=0).compute()
+    image_template.data = np.expand_dims(da.sqrt((da.square(stack[:, :, 1, :, :]) + da.square(stack[:, :, 2, :, :]))).std(axis=0).compute(), axis=0)
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))

@@ -3,6 +3,8 @@
 """sourcefind.py: Run source-finding on the moment images."""
 
 import sys
+# Change the Python path for Python2:
+sys.path.insert(0,'/usr/lib/python2.7/dist-packages/')
 
 import bdsf
 
@@ -15,12 +17,9 @@ __email__ = "jamie.farnes@oerc.ox.ac.uk"
 """
 Currently a hacky source-finding bolt-on and work in progress...
 """
-# Change the Python path for Python2:
-sys.path.insert(0,'/usr/lib/python2.7/dist-packages/')
+filename = '/data/outputs/MOMENTS/Mean-I.fits' #  '/data/outputs/imaging_clean_WStack-1.fits'
 
-filename = '/data/outputs/MOMENTS/Std-P.fits' #  '/data/outputs/imaging_clean_WStack-1.fits'
-
-img = bdsf.process_image(filename, rms_box=(100,100), output_all = True, frequency= 1.4e9, beam=(60.0, 60.0, 0.0))
+img = bdsf.process_image(filename, rms_box=(100,100), frequency= 1.4e9, beam=(8.0/60.0, 8.0/60.0, 0.0))
 
 print("HERE")
 
