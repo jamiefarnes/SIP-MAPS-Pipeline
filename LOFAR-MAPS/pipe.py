@@ -226,7 +226,7 @@ def main(args):
     print(image_template.frequency)
     print(image_template.data.shape)
     print(image_template.data)
-    print("Expanded dims: was 1,512,512 - should now be 1,1,512,512?))
+    print("Expanded dims: was 1,512,512 - should now be 1,1,512,512?")
     # Run QA on ARL objects and produce to queue:
     if args.queues:
         sip_queue.produce('qa', pickle.dumps(qa_image(image_template), protocol=2))
