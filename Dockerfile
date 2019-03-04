@@ -19,7 +19,7 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.d
 RUN apt-get -y install git-lfs
 RUN git lfs install
 
-# Install kernsuite, PyBDSF, casacore, python-casacore
+# Install kernsuite, casacore, python-casacore
 RUN sudo apt-get -y install software-properties-common
 # Avoid interactive prompt for tzdata
 ENV TZ=Europe/Berlin
@@ -35,7 +35,6 @@ RUN sudo apt-get -y install libcasa-tables2
 RUN sudo apt-get -y install libcasa-measures2
 RUN sudo apt-get -y install casacore-dev
 RUN sudo apt-get -y install python3-casacore
-# RUN sudo apt-get -y install pybdsf
 
 # Set working directory
 WORKDIR /home/jovyan/sdp
@@ -82,6 +81,7 @@ ENV PATH=/usr/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV PYTHONPATH=/usr/lib/python2.7/dist-packages/
 RUN sudo apt-get -y install python-pip
 RUN pip install numpy
+RUN pip install astropy==2.0.12
 # Reset environment variables:
 ENV PATH=/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV PYTHONPATH=/home/jovyan/sdp/algorithm-reference-library/:/opt/conda/lib/python3.5/site-packages/:/usr/lib/python3/dist-packages/
